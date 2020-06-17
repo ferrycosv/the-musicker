@@ -7,8 +7,6 @@ router.get('/', controllers.getAll);
 
 router.get('/:id', controllers.getOne);
 
-router.get('/:id/detail', controllers.detail);
-
 router.post('/', controllers.create);
 
 router.put('/:id', controllers.update);
