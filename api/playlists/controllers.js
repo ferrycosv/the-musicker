@@ -3,19 +3,6 @@ const table = "playlists";
 const primary_key = "PlaylistId";
 
 const controllers = {
-  detail: (req, res) => {
-    db.all(
-      `SELECT A.PlaylistId,C.Name playListName, A.TrackId, B.Name trackName FROM playlist_track A INNER JOIN tracks B on (A.TrackId = B.TrackId) INNER JOIN playlists C on (A.PlaylistId = C.PlaylistId)  WHERE A.PlaylistId = ?`,
-      req.params.id,
-      (err, rows) => {
-        if (err) {
-          res.status(400).json({ error: err.message });
-          return;
-        }
-        res.json(rows);
-      }
-    );
-  },
   getAll: (req, res) => {
     db.all(`SELECT * FROM ${table}`, (err, rows) => {
       if (err) {

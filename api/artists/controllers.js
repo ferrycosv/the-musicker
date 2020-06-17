@@ -3,22 +3,6 @@ const table = "artists";
 const primary_key = "ArtistId";
 
 const controllers = {
-  detail: (req, res) => {
-    const getAllTracks = (res, paramId) => {
-      db.all(
-        `SELECT C.Name artistName, B.Title albumTitle, A.Name trackName FROM tracks A INNER JOIN albums B on (A.AlbumId = B.AlbumId) INNER JOIN artists C on (B.ArtistId = C.ArtistId) WHERE C.ArtistId = ? ORDER BY 2,3`,
-        paramId,
-        (err, rows) => {
-          if (err) {
-            res.status(400).json({ error: err.message });
-            return;
-          }
-          res.json(rows);
-        }
-      );
-    };
-    getAllTracks(res, req.params.id);
-  },
   getAll: (req, res) => {
     db.all(`SELECT * FROM ${table}`, (err, rows) => {
       if (err) {

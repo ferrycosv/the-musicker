@@ -10,5 +10,6 @@ router.use("/albums", require("./albums"));
 router.use("/artists", require("./artists"));
 router.use("/playlists", require("./playlists"));
 router.use("/tracks", require("./tracks"));
+router.use("/details", require("./details"));
 
 module.exports = router;
