@@ -13,4 +13,8 @@ router.put('/:id', controllers.update);
 
 router.delete('/:id', controllers.delete);
 
+router.delete('/:id/:trackid', controllers.delete_track);
+
+router.post('/add_track', controllers.add_track);
+
 module.exports = router;

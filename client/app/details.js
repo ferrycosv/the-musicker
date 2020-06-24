@@ -9,6 +9,7 @@ async function main() {
     const span_header = document.getElementById("span-head");
     const res = await fetch(`/api/details/${search}/${id}`);
     const data = await res.json();
+    if (!data.length) return;
     if (search !== "playlists") {
       span_header.innerText = `${data[0].ArtistName} - Details`;
       ui.printDetails(data, container);

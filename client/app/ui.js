@@ -73,6 +73,39 @@ const ui = {
       container.appendChild(br);
     });
   },
+  fillDropdown: (data, element) => {
+    const list = data
+      .map((x) => `<option data-id='${x.id}'>${x.name}</option>`)
+      .join(" ");
+    element.innerHTML = list;
+  },
+  printTablePlaylist: (data, tbl) => {
+    const tbl_header =
+      "<thead> <tr> " +
+      Object.keys(data[0])
+        .map((x) => `<th> ${x} </th>`)
+        .join(" ") +
+      " </tr> </thead>";
+    const tbl_body =
+      "<tbody id='tbl-list'>" +
+      data
+        .map(
+          (row) =>
+            `<tr> ${Object.keys(row)
+              .map((column) => {
+                if (column === "Delete") {
+                  return (
+                    `<td> <i class='fa fa-times del-track' data-id='${row[column]}' aria-hidden='true'> </i> </td>`
+                  );
+                }
+                return "<td> " + row[column] + " </td>";
+              })
+              .join(" ")} </tr>`
+        )
+        .join(" ") +
+      "</tbody>";
+    tbl.innerHTML = tbl_header + tbl_body;
+  },  
 };
 
 export { ui };

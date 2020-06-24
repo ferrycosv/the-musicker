@@ -69,14 +69,49 @@ const controllers = {
   },
   delete: (req, res) => {
     db.run(
-      `DELETE FROM ${table} WHERE ${primary_key}=?`,
+      `DELETE FROM playlist_track WHERE ${primary_key}=?`,
       req.params.id,
+      (err) => {
+        db.run(
+          `DELETE FROM ${table} WHERE ${primary_key}=?`,
+          req.params.id,
+          (err) => {
+            if (err) {
+              res.status(400).json({ error: err.message });
+              return;
+            }
+            res.json();
+          }
+        );
+      }
+    );
+  },
+  delete_track: (req, res) => {
+    db.run(
+      `DELETE FROM playlist_track WHERE ${primary_key} = ? AND TrackId = ?`,
+      [req.params.id, req.params.trackid],
       (err) => {
         if (err) {
           res.status(400).json({ error: err.message });
           return;
         }
         res.json();
+      }
+    );
+  },
+  add_track: (req, res) => {
+    const data = req.body;
+    const cols = Object.keys(data).join(", ");
+    const placeholders = Object.keys(data).fill("?").join(", ");
+    db.run(
+      `INSERT INTO playlist_track (${cols}) VALUES (${placeholders})`,
+      Object.values(data),
+      (err) => {
+        if (err) {
+          res.status(400).json({ error: err.message });
+          return;
+        }
+        return res.json(data);
       }
     );
   },
