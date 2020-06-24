@@ -14,8 +14,8 @@ const api = require('./api');
 const app = express();
 
 app.use(cors());
-//app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 // log to file
 app.use(morgan('combined', {

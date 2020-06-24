@@ -15,3 +15,10 @@
 - The folders inside `./api` contains the endpoints and controllers to perform CRUD operations for the tables `albums, tracks, artists and playlist`, the queries used are defined in the `user-stories.md` file.
 
 ---
+
+## 2. User Story: `Client to render information received from the API`
+
+- User must be able visualize the information exchanged between the API and the client interface.
+- Inside `./client` we define the different pages and app files for the client implementation.
+
+---

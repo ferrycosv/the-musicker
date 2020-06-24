@@ -5,7 +5,7 @@ const controllers = {
     // function to get all albums and tracks from artist
     const getAllTracks = (paramId) => {
       db.all(
-        `SELECT C.Name ArtistName, B.Title AlbumTitle, A.Name TrackName 
+        `SELECT C.Name ArtistName, B.Title AlbumTitle, A.Name TrackName, A.TrackId 
         FROM tracks A INNER JOIN albums B on (A.AlbumId = B.AlbumId) 
         INNER JOIN artists C on (B.ArtistId = C.ArtistId) 
         WHERE C.ArtistId = ? ORDER BY 2,3`,
@@ -40,7 +40,7 @@ const controllers = {
     // function to get playlist detail
     const getPlaylistDetail = () => {
       db.all(
-        `SELECT A.Name PlaylistName, E.Name Artist, C.Name Track, D.Title Album, C.Milliseconds
+        `SELECT A.Name PlaylistName, E.Name Artist, C.Name Track, D.Title Album, C.Milliseconds, B.TrackId
         FROM playlists A 
         INNER JOIN playlist_track B on (A.PlaylistId = B.PlaylistId) 
         INNER JOIN tracks C on (B.TrackId = C.TrackId)
