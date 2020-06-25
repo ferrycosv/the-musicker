@@ -167,6 +167,96 @@ var handler = {
       console.log(err.message);
     }
   },
+  initCreate: () => {
+    const create_btn = document.getElementById("create-btn");
+    create_btn.onclick = async (e) => {
+      const list_name = document.getElementById("input-playlist").value;
+      e.preventDefault();
+      if (list_name === "") {
+        alert("Playlist name must not be empty!");
+        return;
+      }
+      if (!confirm("Are you sure to save the new playlist?")) return;
+      await handler.savePlaylist(list_name);
+      location.reload();
+    };
+    const add_btn = document.getElementById("add-btn");
+    add_btn.onclick = async (e) => {
+      e.preventDefault();
+      if (!confirm("Are you sure to add the selected track to the playlist?"))
+        return;
+      handler.addTrackCreate();
+      handler.printDetailCreate();
+    };
+  },
+  addTrackCreate: () => {
+    const dropdown_artist = document.getElementById("sel2");
+    const dropdown_track = document.getElementById("sel3");
+    //const artistId = dropdown_artist.selectedOptions[0].dataset.id;
+    const trackId = dropdown_track.selectedOptions[0].dataset.id;
+    const artistName = dropdown_artist.selectedOptions[0].textContent;
+    const trackName = dropdown_track.selectedOptions[0].textContent;
+    handler.tracks.push({
+      ArtistName: artistName,
+      TrackName: trackName,
+      TrackId: trackId,
+    });
+  },
+  tracks: [],
+  printDetailCreate: () => {
+    const tbl = document.getElementById("main-table");
+    const data = handler.tracks.map((x) => {
+      return {
+        ArtistName: x.ArtistName,
+        TrackName: x.TrackName,
+        Delete: x.TrackId,
+      };
+    });
+    if (!data.length) {
+      tbl.innerHTML = "";
+      return;
+    }
+    ui.printTablePlaylist(data, tbl);
+    const del_list = document.getElementsByClassName("del-track");
+    for (let item of del_list) {
+      item.onclick = (e) => {
+        if (
+          confirm("Are you sure to delete selected track from the playlist?")
+        ) {
+          handler.tracks = handler.tracks.filter(
+            (x) => x.TrackId !== e.target.dataset.id
+          );
+          handler.printDetailCreate();
+        }
+      };
+    }
+  },
+  savePlaylist: async (list_name) => {
+    try {
+      const data = { Name: list_name };
+      const res = await fetch(`/api/playlists/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      await handler.tracks.map(async (x) => {
+        const data = { PlaylistId: result.PlaylistId, TrackId: x.TrackId };
+        const res = await fetch(`/api/playlists/add_track/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+      });
+    } catch (err) {
+      alert("Error while fetching data, check console for details...");
+      console.log(err.message);
+    }
+  },
 };
 
 export { handler };

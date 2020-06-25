@@ -22,3 +22,17 @@
 - Inside `./client` we define the different pages and app files for the client implementation.
 
 ---
+
+## 3. User Story: `Playlist edit`
+
+- User must be able to edit existing playlist, add or remove tracks and delete the entire playlist.
+- Inside `./client` we define the different pages and app files for the client implementation.
+
+---
+
+## 4. User Story: `Playlist create`
+
+- User must be able to create a new playlist, add or remove tracks to the playlist to be created.
+- Inside `./client` we define the different pages and app files for the client implementation.
+
+---
